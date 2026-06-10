@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { personalInfo } from "@/data/portfolioData";
-import { Github, Linkedin, Mail, ArrowRight } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowRight, User } from "lucide-react";
+import profileAsset from "@/assets/badhon-profile.png.asset.json";
+
+// 👇 Replace this with a new image URL anytime to swap the profile photo.
+const PROFILE_IMAGE_SRC: string | null = profileAsset.url;
 
 const phrases = [
   "Full Stack Developer",
@@ -27,7 +31,9 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-40" />
-      <div className="relative z-10 container max-w-5xl mx-auto px-6 py-32">
+      <div className="relative z-10 container max-w-6xl mx-auto px-6 py-32">
+        <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-12">
+          <div className="flex-1 min-w-0">
         {/* Status line */}
         {personalInfo.availableForWork && (
           <div className="flex items-center gap-2 mb-8 font-mono text-xs text-muted-foreground">
@@ -84,7 +90,36 @@ export default function Hero() {
             </a>
           ))}
         </div>
+          </div>
+
+          {/* Profile photo */}
+          <div className="flex justify-center md:justify-end shrink-0">
+            <div
+              className="profile-glow rounded-full overflow-hidden flex items-center justify-center"
+              style={{
+                width: "var(--profile-size, 180px)",
+                height: "var(--profile-size, 180px)",
+                border: "3px solid #00D4FF",
+                background: "#1A1A2E",
+              }}
+            >
+              {PROFILE_IMAGE_SRC ? (
+                <img
+                  src={PROFILE_IMAGE_SRC}
+                  alt={`${personalInfo.name} — ${personalInfo.title}`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="w-1/2 h-1/2" style={{ color: "#00D4FF" }} strokeWidth={1.5} />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
+      <style>{`
+        section { --profile-size: 180px; }
+        @media (min-width: 768px) { section { --profile-size: 260px; } }
+      `}</style>
     </section>
   );
 }
