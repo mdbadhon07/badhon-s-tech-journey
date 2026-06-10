@@ -1,82 +1,52 @@
 import { useEffect, useRef, useState } from "react";
 import { stats } from "@/data/portfolioData";
 
-function CounterCard({ stat, index }: { stat: typeof stats[0]; index: number }) {
-  const [count, setCount] = useState(0);
+function Counter({ value }: { value: number }) {
+  const [n, setN] = useState(0);
   const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [started]);
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStarted(true); }, { threshold: 0.4 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!started) return;
-    const duration = 2000;
     const steps = 60;
-    const increment = stat.value / steps;
-    let current = 0;
-    const interval = setInterval(() => {
-      current += increment;
-      if (current >= stat.value) {
-        setCount(stat.value);
-        clearInterval(interval);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(interval);
-  }, [started, stat.value]);
+    const inc = value / steps;
+    let cur = 0;
+    const id = setInterval(() => {
+      cur += inc;
+      if (cur >= value) { setN(value); clearInterval(id); }
+      else setN(Math.floor(cur));
+    }, 1800 / steps);
+    return () => clearInterval(id);
+  }, [started, value]);
 
-  return (
-    <div
-      ref={ref}
-      className="glass-card rounded-2xl p-6 text-center group hover:border-primary/40 hover:shadow-glow transition-all duration-300"
-      style={{ animationDelay: `${index * 100}ms` }}
-    >
-      <div className="text-4xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>
-        {stat.icon}
-      </div>
-      <div className="font-display text-4xl font-bold gradient-text mb-1">
-        {count}{stat.suffix}
-      </div>
-      <div className="font-semibold text-foreground text-sm mb-1">{stat.label}</div>
-      <div className="text-xs text-muted-foreground">{stat.description}</div>
-    </div>
-  );
+  return <span ref={ref}>{n}</span>;
 }
 
 export default function Stats() {
   return (
-    <section id="stats" className="py-24 relative bg-muted/10">
-      <div className="container max-w-5xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-sm font-mono text-accent tracking-wider uppercase mb-3 block">04. Stats</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            By the <span className="gradient-text">Numbers</span>
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Dedication measured in hours, networks, and problems solved.
-          </p>
+    <section id="stats" className="py-32 relative">
+      <div className="container max-w-5xl mx-auto px-6">
+        <div className="flex items-baseline gap-4 mb-16">
+          <span className="font-mono text-sm text-accent">03.</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">By the numbers</h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-          {stats.map((stat, i) => (
-            <CounterCard key={stat.label} stat={stat} index={i} />
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border border border-border rounded-sm">
+          {stats.map((s) => (
+            <div key={s.label} className="p-8">
+              <div className="font-display text-4xl md:text-5xl font-bold text-primary mb-2">
+                <Counter value={s.value} />{s.suffix}
+              </div>
+              <div className="text-sm font-semibold text-foreground mb-1">{s.label}</div>
+              <div className="font-mono text-xs text-muted-foreground">{s.description}</div>
+            </div>
           ))}
-        </div>
-
-        {/* Growth note */}
-        <div className="mt-10 text-center">
-          <p className="text-sm text-muted-foreground">
-            📈 <span className="text-foreground font-medium">Growing every week</span> — new labs, new skills, new wins.
-          </p>
         </div>
       </div>
     </section>

@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { personalInfo } from "@/data/portfolioData";
-import { Menu, X, Shield } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#certifications", label: "Certs" },
+  { href: "#work", label: "Work" },
+  { href: "#skills", label: "Stack" },
   { href: "#stats", label: "Stats" },
-  { href: "#resume", label: "Resume" },
+  { href: "#resume", label: "About" },
   { href: "#goals", label: "Goals" },
   { href: "#contact", label: "Contact" },
 ];
@@ -15,104 +14,70 @@ const navLinks = [
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [active, setActive] = useState("");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-      // Detect active section
-      const sections = navLinks.map((l) => l.href.replace("#", ""));
-      for (const s of [...sections].reverse()) {
-        const el = document.getElementById(s);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          setActiveSection(s);
-          break;
-        }
+    const onScroll = () => {
+      setScrolled(window.scrollY > 30);
+      const ids = navLinks.map((l) => l.href.slice(1));
+      for (const id of [...ids].reverse()) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) { setActive(id); break; }
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const go = (href: string) => {
     setMobileOpen(false);
-    const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/90 backdrop-blur-xl border-b border-border/60 shadow-card"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between max-w-6xl">
-        {/* Logo */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-2 group"
-        >
-          <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center animate-pulse-glow">
-            <Shield className="w-4 h-4 text-primary-foreground" />
-          </div>
-          <span className="font-display font-bold text-foreground group-hover:text-primary transition-colors">
-            {personalInfo.name}
-          </span>
+    <nav className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${scrolled ? "bg-card/90 backdrop-blur-md border-b border-border" : "bg-transparent"}`}>
+      <div className="container mx-auto px-6 h-16 flex items-center justify-between max-w-6xl">
+        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-baseline gap-1 font-mono text-sm">
+          <span className="text-primary">~/</span>
+          <span className="text-foreground font-semibold">{personalInfo.name.toLowerCase()}</span>
+          <span className="text-primary cursor-blink">_</span>
         </button>
 
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.href.replace("#", "");
+          {navLinks.map((l) => {
+            const isActive = active === l.href.slice(1);
             return (
               <button
-                key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className={`relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
-                  isActive
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                }`}
+                key={l.href}
+                onClick={() => go(l.href)}
+                className={`px-3 py-1.5 text-sm font-mono transition-colors ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
               >
-                {link.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
-                )}
+                <span className="text-accent">·</span> {l.label}
               </button>
             );
           })}
           <a
             href={personalInfo.resumeUrl}
-            className="ml-2 px-4 py-2 text-sm font-medium rounded-lg bg-gradient-primary text-primary-foreground hover:opacity-90 transition-opacity glow-primary"
+            className="ml-3 px-4 py-1.5 text-sm font-medium border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors glow-primary rounded"
           >
-            Resume ↓
+            Resume
           </a>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden text-muted-foreground hover:text-foreground"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
+        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-card/95 backdrop-blur-xl border-b border-border/60">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className="text-left px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors"
-              >
-                {link.label}
+        <div className="md:hidden bg-card border-b border-border">
+          <div className="container mx-auto px-6 py-3 flex flex-col">
+            {navLinks.map((l) => (
+              <button key={l.href} onClick={() => go(l.href)} className="text-left py-2 font-mono text-sm text-muted-foreground hover:text-primary">
+                <span className="text-accent">·</span> {l.label}
               </button>
             ))}
+            <a href={personalInfo.resumeUrl} className="mt-2 py-2 font-mono text-sm text-primary">→ Resume</a>
           </div>
         </div>
       )}
