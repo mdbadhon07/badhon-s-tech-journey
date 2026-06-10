@@ -31,7 +31,9 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-40" />
-      <div className="relative z-10 container max-w-5xl mx-auto px-6 py-32">
+      <div className="relative z-10 container max-w-6xl mx-auto px-6 py-32">
+        <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-12">
+          <div className="flex-1 min-w-0">
         {/* Status line */}
         {personalInfo.availableForWork && (
           <div className="flex items-center gap-2 mb-8 font-mono text-xs text-muted-foreground">
