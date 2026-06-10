@@ -1,123 +1,72 @@
 import { personalInfo } from "@/data/portfolioData";
-import { Download, User, GraduationCap, Briefcase } from "lucide-react";
+import { Download, ArrowUpRight } from "lucide-react";
+
+const education = [
+  { title: "Diploma in Computer Science", org: "Polytechnic Institute, Bangladesh", year: "2022 – Present" },
+  { title: "Self-directed full stack study", org: "Online (freeCodeCamp, Frontend Masters, docs)", year: "2021 – Present" },
+];
+
+const experience = [
+  { title: "Freelance Full Stack Developer", org: "Independent clients", year: "2023 – Present", note: "Shipping React/Node apps end-to-end for SMBs and startups." },
+  { title: "Open source contributor", org: "GitHub", year: "2022 – Present", note: "PRs to UI libraries, devtools and starter kits." },
+];
 
 export default function Resume() {
   return (
-    <section id="resume" className="py-24 relative">
-      <div className="container max-w-5xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-sm font-mono text-accent tracking-wider uppercase mb-3 block">05. Resume</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            My <span className="gradient-text">Background</span>
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            A snapshot of my education, experience, and where I'm headed.
-          </p>
+    <section id="resume" className="py-32 relative">
+      <div className="container max-w-5xl mx-auto px-6">
+        <div className="flex items-baseline gap-4 mb-16">
+          <span className="font-mono text-sm text-accent">04.</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">About & background</h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Education */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="font-display text-lg font-bold text-foreground">Education</h3>
-            </div>
-            <div className="space-y-5">
-              {[
-                {
-                  degree: "Diploma in Computer Science & Technology",
-                  school: "Polytechnic Institute, Bangladesh",
-                  year: "2022 – Present",
-                  highlight: "Focus: Networking, OS, Database",
-                },
-                {
-                  degree: "SSC (Science)",
-                  school: "Secondary School",
-                  year: "2021",
-                  highlight: "GPA: 4.5 / 5.0",
-                },
-              ].map((edu) => (
-                <div key={edu.degree} className="relative pl-5 border-l border-primary/30">
-                  <div className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-primary/60 border-2 border-background" />
-                  <div className="text-xs font-mono text-accent mb-1">{edu.year}</div>
-                  <div className="font-semibold text-foreground text-sm">{edu.degree}</div>
-                  <div className="text-muted-foreground text-xs mt-0.5">{edu.school}</div>
-                  <div className="text-muted-foreground text-xs mt-1 italic">{edu.highlight}</div>
+        <div className="grid md:grid-cols-2 gap-16 mb-16">
+          <div>
+            <p className="font-mono text-xs text-accent uppercase tracking-wider mb-6">Experience</p>
+            <div className="space-y-8 border-l border-border pl-6">
+              {experience.map((e) => (
+                <div key={e.title} className="relative">
+                  <span className="absolute -left-[27px] top-2 w-2 h-2 rounded-full bg-primary" />
+                  <div className="font-mono text-xs text-muted-foreground mb-1">{e.year}</div>
+                  <div className="font-semibold text-foreground">{e.title}</div>
+                  <div className="text-sm text-muted-foreground">{e.org}</div>
+                  <p className="text-sm text-foreground/80 mt-2">{e.note}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Experience / About */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-accent/15 border border-accent/30 flex items-center justify-center">
-                <Briefcase className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="font-display text-lg font-bold text-foreground">Experience</h3>
-            </div>
-            <div className="space-y-5">
-              {[
-                {
-                  role: "Freelance IT Support",
-                  org: "Local Clients, Bangladesh",
-                  year: "2023 – Present",
-                  highlight: "Hardware repairs, network setup, OS installs",
-                },
-                {
-                  role: "Lab Intern (Self-directed)",
-                  org: "Home Lab & Online Platforms",
-                  year: "2023 – Present",
-                  highlight: "Packet Tracer, TryHackMe, VirtualBox labs",
-                },
-              ].map((exp) => (
-                <div key={exp.role} className="relative pl-5 border-l border-accent/30">
-                  <div className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-accent/60 border-2 border-background" />
-                  <div className="text-xs font-mono text-accent mb-1">{exp.year}</div>
-                  <div className="font-semibold text-foreground text-sm">{exp.role}</div>
-                  <div className="text-muted-foreground text-xs mt-0.5">{exp.org}</div>
-                  <div className="text-muted-foreground text-xs mt-1 italic">{exp.highlight}</div>
+          <div>
+            <p className="font-mono text-xs text-accent uppercase tracking-wider mb-6">Education</p>
+            <div className="space-y-8 border-l border-border pl-6">
+              {education.map((e) => (
+                <div key={e.title} className="relative">
+                  <span className="absolute -left-[27px] top-2 w-2 h-2 rounded-full bg-accent" />
+                  <div className="font-mono text-xs text-muted-foreground mb-1">{e.year}</div>
+                  <div className="font-semibold text-foreground">{e.title}</div>
+                  <div className="text-sm text-muted-foreground">{e.org}</div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Profile summary */}
-          <div className="glass-card rounded-2xl p-6 md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-muted/60 border border-border/50 flex items-center justify-center">
-                <User className="w-5 h-5 text-muted-foreground" />
-              </div>
-              <h3 className="font-display text-lg font-bold text-foreground">Professional Summary</h3>
-            </div>
-            <p className="text-muted-foreground leading-relaxed mb-6">
-              Motivated IT student with hands-on experience in network design, IT support, and cybersecurity fundamentals.
-              Actively preparing for CCNA certification and building a strong foundation in ethical hacking.
-              Known for fast problem-solving, a love for documentation, and a hunger to learn.
-              Open to internships, entry-level IT support, or junior network roles.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={personalInfo.resumeUrl}
-                download
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-primary text-primary-foreground font-semibold text-sm hover:opacity-90 hover:scale-105 transition-all duration-200 glow-primary"
-              >
-                <Download className="w-4 h-4" />
-                Download Full Resume (PDF)
-              </a>
-              <a
-                href={personalInfo.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border/60 bg-muted/30 text-foreground font-semibold text-sm hover:border-primary/50 hover:bg-muted/60 transition-all duration-200"
-              >
-                View LinkedIn Profile →
-              </a>
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center gap-6 pt-8 border-t border-border">
+          <a
+            href={personalInfo.resumeUrl}
+            download
+            className="inline-flex items-center gap-2 px-6 py-3 rounded bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors glow-primary"
+          >
+            <Download className="w-4 h-4" /> Download resume (PDF)
+          </a>
+          <a
+            href={personalInfo.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-mono text-sm text-primary hover:underline"
+          >
+            View on LinkedIn <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
     </section>
