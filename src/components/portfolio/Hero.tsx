@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { personalInfo } from "@/data/portfolioData";
 import { Github, Linkedin, Mail, ArrowRight, User } from "lucide-react";
-import profileAsset from "@/assets/badhon-profile.png.asset.json";
+import profileImage from "@/assets/badhon-profile.png";
 
 // 👇 Replace this with a new image URL anytime to swap the profile photo.
-const PROFILE_IMAGE_SRC: string | null = profileAsset.url;
+const PROFILE_IMAGE_SRC: string | null = profileImage;
 
 const phrases = [
   "Full Stack Developer",
