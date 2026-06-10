@@ -90,7 +90,36 @@ export default function Hero() {
             </a>
           ))}
         </div>
+          </div>
+
+          {/* Profile photo */}
+          <div className="flex justify-center md:justify-end shrink-0">
+            <div
+              className="profile-glow rounded-full overflow-hidden flex items-center justify-center"
+              style={{
+                width: "var(--profile-size, 180px)",
+                height: "var(--profile-size, 180px)",
+                border: "3px solid #00D4FF",
+                background: "#1A1A2E",
+              }}
+            >
+              {PROFILE_IMAGE_SRC ? (
+                <img
+                  src={PROFILE_IMAGE_SRC}
+                  alt={`${personalInfo.name} — ${personalInfo.title}`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="w-1/2 h-1/2" style={{ color: "#00D4FF" }} strokeWidth={1.5} />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
+      <style>{`
+        section { --profile-size: 180px; }
+        @media (min-width: 768px) { section { --profile-size: 260px; } }
+      `}</style>
     </section>
   );
 }
