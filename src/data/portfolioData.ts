@@ -61,17 +61,17 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "taskflow",
+    id: "shohayota-shobai-jonno",
     index: "01",
-    title: "TaskFlow",
-    tagline: "Realtime team task manager",
-    description: "A Trello-style task manager with realtime drag-and-drop, role-based access, optimistic updates and offline sync. Scaled to 5k boards in a beta cohort.",
+    title: "NGO",
+    tagline: "An helpful organization ",
+    description: "The organization works in key areas such as humanitarian support, education assistance, blood donation activities, disaster relief, and helping underprivileged and vulnerable people in society. It also focuses on youth development by organizing awareness programs, skill-building initiatives, and social responsibility campaigns.",
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "WebSockets", "Tailwind"],
     role: "Solo build · design + full stack",
     year: "2025",
     featured: true,
-    link: "#",
-    github: "#",
+    link: "https://shohayota-shobar-jonno.vercel.app/",
+    github: "https://github.com/mdbadhon07/shohayota-shobai-jonno",
   },
   {
     id: "devmetrics",
